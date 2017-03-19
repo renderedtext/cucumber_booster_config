@@ -1,7 +1,6 @@
-# CucumberBoosterConfig
+# Cucumber Booster Config
 
-[![Build
-Status](https://semaphoreci.com/api/v1/projects/b5ad1293-4dd1-425d-8c00-b42ceca09c75/527737/badge.svg)](https://semaphoreci.com/renderedtext/cucumber_booster_config)
+[![Build Status](https://semaphoreci.com/api/v1/projects/b5ad1293-4dd1-425d-8c00-b42ceca09c75/527737/badge.svg)](https://semaphoreci.com/renderedtext/cucumber_booster_config)
 
 Injects additional configuration for Cucumber so that it outputs JSON suitable
 for auto-parallelism without affecting stdout.
@@ -11,10 +10,10 @@ for auto-parallelism without affecting stdout.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "cucumber_booster_config", :source => "https://gem.fury.io/renderedtext/"
+gem "semaphore_cucumber_booster_config"
 ```
 
-## Usage
+## Usage from the CLI
 
 ```
 $ cucumber-booster-config help inject
@@ -46,20 +45,34 @@ default: --format pretty features --profile semaphoreci
 ---
 ```
 
+## Usage from other scripts
+
+You can invoke the injector script programaticaly too:
+
+``` ruby
+current_path = Dir.pwd
+output_report_path = "/tmp/cucumber_report.json"
+
+CucumberBoosterConfig::Injection.new(current_path, output_report_path).run
+```
+
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `bundle exec rspec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run
+`bundle exec rspec` to run the tests. You can also run `bin/console` for an
+interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`.
 
 ### How to release a new version
 
-Change version number in `lib/cucumber_booster_config/version.rb`, commit and push your changes.
-This will propagate the gemspec and subsequently `.gem` file that is generated on Gemfury.
+Bump version number in `lib/cucumber_booster_config/version.rb`, commit and
+push your changes.
 
-Semaphore is currently configured to push new versions to Gemfury.
-If version hasn't changed, Gemfury will simply ignore the update.
+Semaphore is currently configured to push new versions to Rubygems.
+If version hasn't changed, Rubygems will simply ignore the update.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/renderedtext/cucumber_booster_config.
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/renderedtext/cucumber_booster_config.
