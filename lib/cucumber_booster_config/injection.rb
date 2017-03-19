@@ -9,8 +9,9 @@ module CucumberBoosterConfig
       "config/cucumber.yml"
     ]
 
-    def initialize(path, options = {})
+    def initialize(path, report_path, options = {})
       @path = path
+      @report_path = report_path
       @dry_run = options.fetch(:dry_run, false)
     end
 
@@ -29,7 +30,7 @@ module CucumberBoosterConfig
 
     def run
       find_profile_files.each do |path|
-        CucumberFile.new(path, @dry_run).configure_for_autoparallelism
+        CucumberFile.new(path, @dry_run).configure_for_autoparallelism(@report_path)
       end
     end
 

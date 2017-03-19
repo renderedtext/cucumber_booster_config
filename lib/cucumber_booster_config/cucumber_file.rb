@@ -2,7 +2,6 @@ module CucumberBoosterConfig
 
   class CucumberFile
 
-    SEMAPHORE_PROFILE = "semaphoreci: --format json --out=~/cucumber_report.json"
     DEFAULT_PROFILE = "default: --format pretty --profile semaphoreci features"
 
     def initialize(path, dry_run)
@@ -10,7 +9,7 @@ module CucumberBoosterConfig
       @dry_run = dry_run
     end
 
-    def configure_for_autoparallelism
+    def configure_for_autoparallelism(report_path)
       load_file_content
 
       if dry_run?
@@ -20,7 +19,7 @@ module CucumberBoosterConfig
         puts "---"
       end
 
-      define_semaphore_profile
+      define_semaphore_profile(report_path)
       include_semaphore_profile
 
       if dry_run?
@@ -48,10 +47,11 @@ module CucumberBoosterConfig
       File.open(@path, "w") { |f| @new_lines.each { |line| f.puts line } }
     end
 
-    def define_semaphore_profile
-      puts "Inserting Semaphore configuration"
+    def define_semaphore_profile(report_path)
+      puts "Inserting Semaphore configuration for json report"
+      puts "Report path: #{report_path}"
 
-      @new_lines << "#{SEMAPHORE_PROFILE}\n"
+      @new_lines << "semaphoreci: --format json --out=#{report_path}\n"
     end
 
     def include_semaphore_profile
