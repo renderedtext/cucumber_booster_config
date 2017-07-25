@@ -3,6 +3,34 @@ require "fileutils"
 
 describe CucumberBoosterConfig::Injection do
 
+  context "when the project has no cucumber configuration" do
+    before do
+      expect(File.exists?("cucumber.yml")).to be(false)
+
+      CucumberBoosterConfig::Injection.new(".", "/tmp/report_path.json").run
+    end
+
+    it "creates a new cucumber.yml file" do
+      expect(File.exists?("cucumber.yml")).to be(true)
+    end
+
+    it "inserts semaphoreci profile" do
+      lines = File.open("cucumber.yml", "r") { |f| f.readlines }
+
+      expect(lines[0].chomp).to eql("semaphoreci: --format json --out=/tmp/report_path.json")
+    end
+
+    it "inserts a default profile definition" do
+      lines = File.open("cucumber.yml", "r") { |f| f.readlines }
+
+      expect(lines[1].chomp).to eql(CucumberBoosterConfig::CucumberFile::DEFAULT_PROFILE)
+    end
+
+    after do
+      FileUtils.rm("cucumber.yml")
+    end
+  end
+
   context "blank cucumber.yml in root" do
 
     before do
