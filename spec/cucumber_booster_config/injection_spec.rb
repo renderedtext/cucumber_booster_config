@@ -30,7 +30,7 @@ describe CucumberBoosterConfig::Injection do
     end
   end
 
-  context "blank cucumber.yml in root" do
+  context "when the blank cucumber.yml is in root" do
 
     before do
       FileUtils.touch("cucumber.yml")
@@ -54,7 +54,7 @@ describe CucumberBoosterConfig::Injection do
     end
   end
 
-  context "config/cucumber.yml found" do
+  context "when config/cucumber.yml is found" do
 
     context "with a default profile" do
 
@@ -74,6 +74,25 @@ describe CucumberBoosterConfig::Injection do
         expect(lines.size).to eql(2)
         expect(lines[0].chomp).to eql("default: <%= common %> --profile semaphoreci")
         expect(lines[1].chomp).to eql("semaphoreci: --format json --out=/tmp/report_path.json")
+      end
+
+      it "doesn't create semaphoreci profile if it is already created" do
+        2.times { CucumberBoosterConfig::Injection.new(".", "/tmp/report_path.json").run }
+
+        lines = File.readlines("config/cucumber.yml")
+        semaphoreci_profiles = lines.select do |line|
+          line.chomp == "semaphoreci: --format json --out=/tmp/report_path.json"
+        end
+
+        expect(semaphoreci_profiles.count).to eq(1)
+      end
+
+      it "doesn't append semaphoreci profile to default if it is already appended" do
+        2.times { CucumberBoosterConfig::Injection.new(".", "/tmp/report_path.json").run }
+
+        default_profile = File.readlines("config/cucumber.yml").first
+        semaphoreci_appended_profiles = default_profile.scan("--profile semaphoreci")
+        expect(semaphoreci_appended_profiles.count).to eq(1)
       end
     end
 
