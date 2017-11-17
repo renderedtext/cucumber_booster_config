@@ -91,7 +91,8 @@ describe CucumberBoosterConfig::Injection do
         2.times { CucumberBoosterConfig::Injection.new(".", "/tmp/report_path.json").run }
 
         default_profile = File.readlines("config/cucumber.yml").first
-        expect(default_profile.count("--profile semaphoreci")).to eq(1)
+        semaphoreci_appended_profiles = default_profile.scan("--profile semaphoreci")
+        expect(semaphoreci_appended_profiles.count).to eq(1)
       end
     end
 
