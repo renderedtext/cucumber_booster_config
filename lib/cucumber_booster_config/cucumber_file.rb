@@ -19,8 +19,11 @@ module CucumberBoosterConfig
         puts "---"
       end
 
-      define_semaphore_profile(report_path)
-      include_semaphore_profile
+
+      unless semaphore_profile_defined? && semaphore_profile_included?
+        define_semaphore_profile(report_path)
+        include_semaphore_profile
+      end
 
       if dry_run?
         puts "Content after:"
@@ -72,6 +75,14 @@ module CucumberBoosterConfig
         puts "No definition for default profile found, inserting new one"
         @new_lines << DEFAULT_PROFILE
       end
+    end
+
+    def semaphore_profile_defined?
+      @original_lines.any? { |line| line.include?("semaphoreci:") }
+    end
+
+    def semaphore_profile_included?
+      @original_lines.any? { |line| line.include?("--profile semaphoreci") }
     end
   end
 end
