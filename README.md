@@ -3,8 +3,11 @@
 [![Build Status](https://semaphoreci.com/api/v1/projects/b5ad1293-4dd1-425d-8c00-b42ceca09c75/527737/badge.svg)](https://semaphoreci.com/renderedtext/cucumber_booster_config)
 [![Gem Version](https://badge.fury.io/rb/semaphore_cucumber_booster_config.svg)](https://badge.fury.io/rb/semaphore_cucumber_booster_config)
 
-Injects additional configuration for Cucumber so that it outputs JSON suitable
-for auto-parallelism without affecting stdout.
+Injects additional configuration for Cucumber so that it outputs JSON report suitable
+for estimation of the [split configuration](https://github.com/renderedtext/test-boosters#split-configuration) for the next build.
+
+Cucumber Booster Config is primarily used as [Test Boosters gem](https://github.com/renderedtext/test-boosters) dependency.
+Boosters help you with distribution of your test files across many parallel jobs and optimize your build time. Find out more about [Boosters](https://semaphoreci.com/docs/about-boosters.html).
 
 ## Installation
 
@@ -57,6 +60,8 @@ output_report_path = "/tmp/cucumber_report.json"
 CucumberBoosterConfig::Injection.new(current_path, output_report_path).run
 ```
 
+This is how Test Boosters gem is using it to configure Cucumber.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run
@@ -77,3 +82,7 @@ If version hasn't changed, Rubygems will simply ignore the update.
 
 Bug reports and pull requests are welcome on GitHub at
 https://github.com/renderedtext/cucumber_booster_config.
+
+## License
+
+The gem is available as open source under the terms of the [MIT license](LICENSE).
