@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/semaphore_cucumber_booster_config.svg)](https://badge.fury.io/rb/semaphore_cucumber_booster_config)
 
 Injects additional configuration for Cucumber so that it outputs JSON report suitable
-for estimation of a split configuration for the next build.
+for estimation of the [split configuration](https://github.com/renderedtext/test-boosters#split-configuration) for the next build.
 
 Cucumber Booster Config is primarily used as [Test Boosters gem](https://github.com/renderedtext/test-boosters) dependency.
 Boosters help you with distribution of your test files across many parallel jobs and optimize your build time. Find out more about [Boosters](https://semaphoreci.com/docs/about-boosters.html).
